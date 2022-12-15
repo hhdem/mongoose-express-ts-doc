@@ -1,5 +1,8 @@
 ## Run
 
+Please make sure you have a mongodb running on your machine and PORT is `27017`
+And this project will running on PORT `5000`.
+
 1. `yarn install`
 2. `yarn run server`
 3. Import `postman_collection.json` of root directory to POSTMAN. or Check swagger ui address: http://localhost:5000/docs/
