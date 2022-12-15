@@ -20,10 +20,24 @@ describe("Field Service", () => {
   test("should delete field by id", async () => {
     jest.spyOn(Field, "findByIdAndDelete").mockReturnValueOnce({} as any);
     jest.spyOn(Doc, "updateMany").mockReturnValueOnce(null as any);
+    jest.spyOn(Doc, "find").mockReturnValueOnce([
+      {
+        _id: "xx",
+        fields: [{ _id: "xx" }],
+        save() {},
+      },
+    ] as any);
+    jest.spyOn(Container, "find").mockReturnValueOnce([
+      {
+        _id: "xx",
+        fields: [{ _id: "xx" }],
+        save() {},
+      },
+    ] as any);
     jest.spyOn(Container, "updateMany").mockReturnValueOnce(null as any);
 
     const pushData = jest.fn(async () => {
-      return FieldService.deleteFieldById("fieldId");
+      return FieldService.deleteFieldById("c id");
     });
     const result = await pushData();
     return expect(result).toEqual({});
