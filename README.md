@@ -1,8 +1,9 @@
 ## Run
 
-1. `yarn run server`
-2. Import postman_collection.json of root directory to POSTMAN. or Check swagger ui address: http://localhost:5000/docs/
-3. This project is using JWT authentication, request almost every API should provided Token.
+1. `yarn install`
+2. `yarn run server`
+3. Import `postman_collection.json` of root directory to POSTMAN. or Check swagger ui address: http://localhost:5000/docs/
+4. This project is using JWT authentication, request almost every API should provided Token.
 
 ## Test
 
