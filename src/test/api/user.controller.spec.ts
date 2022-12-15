@@ -1,10 +1,14 @@
-import User from "../../models/User";
+import User from "../../models/user.model";
 import request from "supertest";
 import app from "../../app";
 import UserService from "../../services/user.service";
 
 afterEach(() => {
   jest.restoreAllMocks();
+});
+// mock database , not need to connect when test controller
+jest.mock("../../../config/database", () => {
+  return jest.fn();
 });
 
 describe("GET /api/user", () => {
@@ -13,11 +17,11 @@ describe("GET /api/user", () => {
       .spyOn(User.prototype, "save")
       .mockReturnValueOnce({ token: "xxx" } as any);
 
-    jest.spyOn(UserService, "getUserByEmail").mockReturnValueOnce(null as any);
+    jest.spyOn(User, "findOne").mockReturnValueOnce(null as any);
 
     return request(app)
       .post("/api/user")
-      .send({ email: "email11@g.com", password: "123123" })
+      .send({ email: "aaa@g.com", password: "aaaaaa" })
       .expect(200)
       .then((response) => {
         expect(response.body).toEqual(

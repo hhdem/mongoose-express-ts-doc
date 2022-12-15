@@ -1,34 +1,16 @@
 import bcrypt from "bcryptjs";
 import config from "config";
-import { Router, Response } from "express";
-import { check, validationResult } from "express-validator";
-import gravatar from "gravatar";
+import { Response } from "express";
+import { validationResult } from "express-validator";
 import HttpStatusCodes from "http-status-codes";
 import jwt from "jsonwebtoken";
 
 import Payload from "../../types/Payload";
 import Request from "../../types/Request";
-import User, { IUser, TUser } from "../../models/User";
+import User, { IUser, TUser } from "../../models/user.model";
 import UserService from "../../services/user.service";
-require("express-async-errors");
-const router: Router = Router();
 
-// @route   POST api/user
-// @desc    Register user given their email and password, returns the token upon successful registration
-// @access  Public
-router.post(
-  "/",
-  [
-    check("email", "Please include a valid email").isEmail(),
-    check(
-      "password",
-      "Please enter a password with 6 or more characters"
-    ).isLength({ min: 6 }),
-  ],
-  saveUser
-);
-
-async function saveUser(req: Request, res: Response) {
+export async function saveUser(req: Request, res: Response) {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res
@@ -50,14 +32,6 @@ async function saveUser(req: Request, res: Response) {
     });
   }
 
-  const options: gravatar.Options = {
-    s: "200",
-    r: "pg",
-    d: "mm",
-  };
-
-  const avatar = gravatar.url(email, options);
-
   const salt = await bcrypt.genSalt(10);
   const hashed = await bcrypt.hash(password, salt);
 
@@ -65,7 +39,6 @@ async function saveUser(req: Request, res: Response) {
   const userFields: TUser = {
     email,
     password: hashed,
-    avatar,
   };
 
   user = new User(userFields);
@@ -85,5 +58,3 @@ async function saveUser(req: Request, res: Response) {
     }
   );
 }
-
-export default router;

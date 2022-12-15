@@ -1,6 +1,6 @@
 import { Document, model, Schema } from "mongoose";
-import { IField } from "./Field";
-import { IUser } from "./User";
+import { IField } from "./field.model";
+import { IUser } from "./user.model";
 
 /**
  * @param name:string
@@ -23,7 +23,6 @@ const containerSchema: Schema = new Schema({
   name: {
     type: String,
     required: true,
-    unique: true,
   },
   owner: {
     type: Schema.Types.ObjectId,

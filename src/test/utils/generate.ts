@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { IUser } from "../../models/User";
+import { IUser } from "../../models/user.model";
 
 export function generateUserData(overide = {}) {
   return {

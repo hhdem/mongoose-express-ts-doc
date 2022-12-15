@@ -1,8 +1,9 @@
-import Container, { IContainer, TContainer } from "../models/Container";
+import Container, { IContainer, TContainer } from "../models/container.model";
 import { Query } from "mongoose";
-import { TField } from "../models/Field";
-import Doc, { IDoc } from "../models/Doc";
+import { TField } from "../models/field.model";
+import Doc, { IDoc } from "../models/doc.model";
 import OperationService from "./operation.service";
+import { IUser } from "../models/user.model";
 
 export default class ContainerService {
   static async isContainerExist(containerId: string): Promise<Boolean> {
@@ -53,12 +54,54 @@ export default class ContainerService {
     return containerSave;
   }
 
+  static async deleteContainerById(_id: string) {
+    return await Container.findByIdAndDelete(_id);
+  }
+
   static async addFieldToContainer(containerId: string, field: TField) {
     const container: IContainer = await Container.findOne({
       _id: containerId,
     });
     container.fields.push(field);
     await container.save();
+  }
+
+  static async setUserPermissions(
+    user: IUser,
+    containerId: string,
+    type: string
+  ) {
+    const container: IContainer = await Container.findOne({
+      _id: containerId,
+    });
+    if (type === "update") {
+      container.updatePermissions.push(user);
+    } else {
+      container.viewPermissions.push(user);
+    }
+    await container.save();
+  }
+
+  static async checkUserPermissions(
+    userId: string,
+    containerId: string,
+    type: string
+  ) {
+    const container: IContainer = await Container.findOne({
+      _id: containerId,
+    })
+      .populate("updatePermissions")
+      .populate("viewPermissions");
+    if (container.owner == userId) {
+      return true;
+    }
+    let hasUser = container.updatePermissions.find(
+      (user) => user._id == userId
+    );
+    if (!hasUser && type === "view") {
+      hasUser = container.viewPermissions.find((user) => user._id == userId);
+    }
+    return hasUser;
   }
 
   static async addContainerToDoc(docId: string, container: TContainer) {
@@ -71,5 +114,18 @@ export default class ContainerService {
       container,
       doc,
     });
+  }
+
+  static async updateContainer(
+    _id: string,
+    container: TContainer
+  ): Promise<IContainer> {
+    const containerSaved = await Container.findOneAndUpdate({ _id }, container);
+    OperationService.saveOperationWithWhoId(
+      container.owner,
+      "UPDATE_CONTAINER",
+      container
+    );
+    return containerSaved;
   }
 }

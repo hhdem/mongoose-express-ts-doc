@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
+import BussinessError from "../utils/BussinessError";
 
 const errorMiddleware = (
   err: Error,
@@ -7,10 +8,13 @@ const errorMiddleware = (
   res: Response,
   next: NextFunction
 ) => {
-  console.error(err);
-  return res
-    .status(StatusCodes.INTERNAL_SERVER_ERROR)
-    .json({ message: err.message || "Internal Server Error" });
+  let status = StatusCodes.INTERNAL_SERVER_ERROR;
+  if (err instanceof BussinessError) {
+    status = StatusCodes.BAD_REQUEST;
+  }
+  return res.status(status).json({
+    message: err.message || "Internal Server Error",
+  });
 };
 
 export default errorMiddleware;

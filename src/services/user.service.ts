@@ -1,4 +1,4 @@
-import User, { IUser } from "../models/User";
+import User, { IUser } from "../models/user.model";
 
 export default class UserService {
   static async getUserByEmail(email: string): Promise<IUser> {

@@ -1,6 +1,6 @@
 import { Document, model, Schema } from "mongoose";
-import { IField } from "./Field";
-import { IContainer } from "./Container";
+import { IField } from "./field.model";
+import { IContainer } from "./container.model";
 
 /**
  * @param name:string

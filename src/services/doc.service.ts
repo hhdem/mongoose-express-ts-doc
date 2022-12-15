@@ -1,6 +1,6 @@
-import { TField } from "../models/Field";
-import Doc, { IDoc, TDoc } from "../models/Doc";
-import { TContainer } from "../models/Container";
+import { TField } from "../models/field.model";
+import Doc, { IDoc, TDoc } from "../models/doc.model";
+import { TContainer } from "../models/container.model";
 import OperationService from "./operation.service";
 
 export default class DocService {

@@ -1,0 +1,462 @@
+swagger: 2.0.0
+info:
+  title: Mongoose-Express-TS-Documentation
+  description: Documents Collaborate System
+  version: 0.0.1
+servers:
+  - url: http://127.0.0.1:5000
+basePath: /api
+schemes:
+  - http
+securityDefinitions:
+  ApiKeyAuth:
+    type: apiKey
+    in: header
+    name: x-auth-token
+security:
+  - ApiKeyAuth: []
+produces:
+  - application/json
+paths:
+  /auth:
+    post:
+      description: Login
+      tags:
+        - User
+      parameters:
+        - name: email
+          in: formData
+          description: Email
+          required: true
+          type: string
+        - name: password
+          in: formData
+          description: Password
+          required: true
+          type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            type: object
+            properties:
+              status:
+                type: boolean
+                description: Success
+        default:
+          description: Errors
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+  /container:
+    post:
+      summary: Save container
+      description: Save container with name
+      tags:
+        - Container
+      parameters:
+        - name: name
+          in: formData
+          description: Container name
+          required: true
+          type: string
+        - name: docId
+          in: formData
+          description: Doc id, which doc this container is belong
+          required: true
+          type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/Container"
+        default:
+          description: Errors
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+  /container/{id}:
+    get:
+      summary: Get container by id
+      description: All information about the container
+      tags:
+        - Container
+      parameters:
+        - name: id
+          in: path
+          description: Container id
+          required: true
+          type: string
+      responses:
+        200:
+          description: Container information
+          schema:
+            $ref: "#/definitions/Container"
+        default:
+          description: Error information
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+    delete:
+      summary: Delete a container
+      description: Delete a container by id according to the authority
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: Container id
+      tags:
+        - Container
+      responses:
+        200:
+          description: Delete a container successful
+          schema:
+            #值类型
+            type: object
+            properties:
+              status:
+                type: boolean
+                description: Success
+        default:
+          description: Error information
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+    put:
+      summary: Update the container
+      description: Change the name of the container by id according to the authority
+      parameters:
+        - name: id
+          in: path
+          description: Container id
+          required: true
+          type: string
+      tags:
+        - Container
+      responses:
+        200:
+          description: Success information
+          schema:
+            type: object
+            properties:
+              status:
+                type: boolean
+                description: Success
+        default:
+          description: Error information
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+  /doc:
+    post:
+      summary: Save Doc
+      description: Save Doc with name
+      tags:
+        - Doc
+      parameters:
+        - name: name
+          in: formData
+          description: Doc name
+          required: true
+          type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/Doc"
+        default:
+          description: Errors
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+  /doc/{id}:
+    get:
+      summary: Get doc by id
+      description: All information about the doc
+      tags:
+        - Doc
+      parameters:
+        - name: id
+          in: path
+          description: Doc id
+          required: true
+          type: string
+      responses:
+        200:
+          description: Container information
+          schema:
+            $ref: "#/definitions/Container"
+        default:
+          description: Error information
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+  /field:
+    post:
+      summary: Save field
+      description: Save field with name
+      tags:
+        - Field
+      parameters:
+        - name: name
+          in: formData
+          description: Field name
+          required: true
+          type: string
+        - name: docId
+          in: formData
+          description: Doc id, which doc this field belong to
+          required: true
+          type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/Field"
+        default:
+          description: Errors
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+  /field/{id}:
+    get:
+      summary: Get field by id
+      description: All information about the field
+      tags:
+        - Field
+      parameters:
+        - name: id
+          in: path
+          description: Field id
+          required: true
+          type: string
+      responses:
+        200:
+          description: Field information
+          schema:
+            $ref: "#/definitions/Field"
+        default:
+          description: Error information
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+    delete:
+      summary: Delete a field
+      description: Delete a field by id according to the authority
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: Field id
+      tags:
+        - Field
+      responses:
+        200:
+          description: Delete a field successful
+          schema:
+            type: object
+            properties:
+              status:
+                type: boolean
+                description: Success
+        default:
+          description: Error information
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+    put:
+      summary: Update the field
+      description: Change the name of the field by id according to the authority
+      parameters:
+        - name: id
+          in: path
+          description: Field id
+          required: true
+          type: string
+      tags:
+        - Field
+      responses:
+        200:
+          description: Success information
+          schema:
+            type: object
+            properties:
+              status:
+                type: boolean
+                description: Success
+        default:
+          description: Error information
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+  /user:
+    post:
+      summary: Save user
+      description: Save user with email and password
+      tags:
+        - User
+      parameters:
+        - name: email
+          in: formData
+          description: Email
+          required: true
+          type: string
+        - name: Password
+          in: formData
+          description: password
+          required: true
+          type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/User"
+        default:
+          description: Errors
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+  /permission:
+    post:
+      summary: Save a permission
+      description: Save a permission of user to view and update field or container
+      tags:
+        - User
+      parameters:
+        - name: containerId
+          in: formData
+          description: Contain id
+          required: true
+          type: string
+        - name: fieldId
+          in: formData
+          description: Field id
+          required: true
+          type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+        default:
+          description: Errors
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+
+definitions:
+  Container:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Container id
+      name:
+        type: string
+        description: Container name
+      fields:
+        type: array
+        description: Fields belong to the container
+        items:
+          $ref: "#/definitions/Field"
+      owner:
+        type: array
+        description: Owner
+        items:
+          $ref: "#/definitions/User"
+      viewPermissions:
+        type: array
+        description: User list who have the view promission
+        items:
+          $ref: "#/definitions/User"
+      updatePermissions:
+        type: array
+        description: User list who have the update promission
+        items:
+          $ref: "#/definitions/User"
+  Doc:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Doc id
+      name:
+        type: string
+        description: Doc name
+      owner:
+        type: array
+        description: Owner
+        items:
+          $ref: "#/definitions/User"
+      fields:
+        type: array
+        description: Fields belong to the container
+        items:
+          $ref: "#/definitions/Field"
+  Field:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Field id
+      name:
+        type: string
+        description: Field name
+      viewPermissions:
+        type: array
+        description: User list who have the view promission
+        items:
+          $ref: "#/definitions/User"
+      updatePermissions:
+        type: array
+        description: User list who have the update promission
+        items:
+          $ref: "#/definitions/User"
+      owner:
+        type: array
+        description: Owner
+        items:
+          $ref: "#/definitions/User"
+  User:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Field id
+      email:
+        type: string
+        description: User email
+      password:
+        type: string
+        description: User password

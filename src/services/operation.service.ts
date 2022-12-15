@@ -1,5 +1,5 @@
-import Operation, { IOperation } from "../models/Operation";
-import { IUser } from "../models/User";
+import Operation, { IOperation } from "../models/operation.model";
+import { IUser } from "../models/user.model";
 
 export default class OperationService {
   static async saveOperation(who: IUser, operated: string, object: Object) {
