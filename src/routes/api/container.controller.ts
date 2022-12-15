@@ -31,15 +31,13 @@ export async function getContainerById(req: Request, res: Response) {
 }
 
 export async function updateContainer(req: Request, res: Response) {
-  const { name, containerId } = req.body;
-  const container: IContainer = await ContainerService.getContainerById(
-    containerId
-  );
+  const { name, id } = req.body;
+  const container: IContainer = await ContainerService.getContainerById(id);
   if (!container) {
     throw new BussinessError("There is no container for this user");
   }
   container.name = name;
-  await ContainerService.updateContainer(containerId, container);
+  await ContainerService.updateContainer(id, container);
   res.json(container);
 }
 

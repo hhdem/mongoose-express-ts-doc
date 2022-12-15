@@ -9,9 +9,9 @@ export default async function checkFieldPermission(
   res: Response,
   next: NextFunction
 ) {
-  const fieldId = req.body.fieldId || req.params.id;
+  const fieldId = req.body.fieldId || req.body.id || req.params.id;
   if (!fieldId) {
-    throw new BussinessError("Parameter fieldId is required.");
+    throw new BussinessError("Parameter field id is required.");
   } else {
     // make sure the field exists
     const isFieldExist: Boolean = await FieldService.isFieldExist(fieldId);

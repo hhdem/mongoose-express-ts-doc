@@ -48,7 +48,31 @@ export default class FieldService {
   }
 
   static async deleteFieldById(_id: string) {
-    return await Field.findByIdAndDelete(_id);
+    const fi = await Field.findByIdAndDelete(_id);
+    await Doc.updateMany({}, { $pull: { fields: { _id } } });
+    await Container.updateMany({}, { $pull: { fields: { _id } } });
+
+    let docList = await Doc.find({ fields: { _id } });
+    for (const doc of docList) {
+      doc.fields.map((x, i) => {
+        if (x._id == _id) {
+          doc.fields.splice(i, 1);
+        }
+      });
+      await doc.save();
+    }
+
+    let conList = await Container.find({ fields: { _id } });
+    for (const con of conList) {
+      con.fields.map((x, i) => {
+        if (x._id == _id) {
+          con.fields.splice(i, 1);
+        }
+      });
+      await con.save();
+    }
+
+    return fi;
   }
 
   static async setUserPermissions(user: IUser, fieldId: string, type: string) {

@@ -9,7 +9,7 @@ export default async function checkContainerPermission(
   res: Response,
   next: NextFunction
 ) {
-  const containerId = req.body.containerId || req.params.id;
+  const containerId = req.body.containerId || req.body.id || req.params.id;
   if (!containerId) {
     throw new BussinessError("Parameter containerId is required.");
   } else {

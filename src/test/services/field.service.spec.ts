@@ -1,8 +1,7 @@
-import jwt from "jsonwebtoken";
 import FieldService from "../../services/field.service";
 import Field from "../../models/field.model";
-import Operation from "../../models/operation.model";
-import OperationService from "../../services/operation.service";
+import Doc from "../../models/doc.model";
+import Container from "../../models/container.model";
 
 describe("Field Service", () => {
   afterEach(() => {
@@ -20,6 +19,9 @@ describe("Field Service", () => {
 
   test("should delete field by id", async () => {
     jest.spyOn(Field, "findByIdAndDelete").mockReturnValueOnce({} as any);
+    jest.spyOn(Doc, "updateMany").mockReturnValueOnce(null as any);
+    jest.spyOn(Container, "updateMany").mockReturnValueOnce(null as any);
+
     const pushData = jest.fn(async () => {
       return FieldService.deleteFieldById("fieldId");
     });

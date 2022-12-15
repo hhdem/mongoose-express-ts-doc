@@ -79,6 +79,38 @@ paths:
             properties:
               message:
                 type: string
+    put:
+      summary: Update the container
+      description: Change the name of the container by id according to the authority
+      parameters:
+        - name: id
+          in: formData
+          description: Container id
+          required: true
+          type: string
+        - name: name
+          in: formData
+          description: Container name
+          required: true
+          type: string
+      tags:
+        - Container
+      responses:
+        200:
+          description: Success information
+          schema:
+            type: object
+            properties:
+              status:
+                type: boolean
+                description: Success
+        default:
+          description: Error information
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
   /container/{id}:
     get:
       summary: Get container by id
@@ -119,33 +151,6 @@ paths:
           description: Delete a container successful
           schema:
             #值类型
-            type: object
-            properties:
-              status:
-                type: boolean
-                description: Success
-        default:
-          description: Error information
-          schema:
-            type: object
-            properties:
-              message:
-                type: string
-    put:
-      summary: Update the container
-      description: Change the name of the container by id according to the authority
-      parameters:
-        - name: id
-          in: path
-          description: Container id
-          required: true
-          type: string
-      tags:
-        - Container
-      responses:
-        200:
-          description: Success information
-          schema:
             type: object
             properties:
               status:
@@ -218,9 +223,18 @@ paths:
           description: Field name
           required: true
           type: string
+        - name: value
+          in: formData
+          description: Field value
+          type: string
         - name: docId
           in: formData
           description: Doc id, which doc this field belong to
+          required: true
+          type: string
+        - name: containerId
+          in: formData
+          description: Container id, which container this field belong to
           required: true
           type: string
       responses:
@@ -235,6 +249,43 @@ paths:
             properties:
               message:
                 type: string
+    put:
+      summary: Update the field
+      description: Change the name of the field by id according to the authority
+      parameters:
+        - name: name
+          in: formData
+          description: Field name
+          required: true
+          type: string
+        - name: id
+          in: formData
+          description: Field id
+          required: true
+          type: string
+        - name: value
+          in: formData
+          description: Field value
+          type: string
+      tags:
+        - Field
+      responses:
+        200:
+          description: Success information
+          schema:
+            type: object
+            properties:
+              status:
+                type: boolean
+                description: Success
+        default:
+          description: Error information
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+
   /field/{id}:
     get:
       summary: Get field by id
@@ -286,33 +337,6 @@ paths:
             properties:
               message:
                 type: string
-    put:
-      summary: Update the field
-      description: Change the name of the field by id according to the authority
-      parameters:
-        - name: id
-          in: path
-          description: Field id
-          required: true
-          type: string
-      tags:
-        - Field
-      responses:
-        200:
-          description: Success information
-          schema:
-            type: object
-            properties:
-              status:
-                type: boolean
-                description: Success
-        default:
-          description: Error information
-          schema:
-            type: object
-            properties:
-              message:
-                type: string
   /user:
     post:
       summary: Save user
@@ -349,6 +373,11 @@ paths:
       tags:
         - User
       parameters:
+        - name: userId
+          in: formData
+          description: User id
+          required: true
+          type: string
         - name: containerId
           in: formData
           description: Contain id
@@ -357,6 +386,11 @@ paths:
         - name: fieldId
           in: formData
           description: Field id
+          required: true
+          type: string
+        - name: type
+          in: formData
+          description: please input 'view' or 'update'
           required: true
           type: string
       responses:

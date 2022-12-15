@@ -55,7 +55,20 @@ export default class ContainerService {
   }
 
   static async deleteContainerById(_id: string) {
-    return await Container.findByIdAndDelete(_id);
+    const co = await Container.findByIdAndDelete(_id);
+    await Doc.updateMany({}, { $pull: { containers: { _id } } });
+
+    let docList = await Doc.find({ containers: { _id } });
+    for (const doc of docList) {
+      doc.containers.map((x, i) => {
+        if (x._id == _id) {
+          doc.containers.splice(i, 1);
+        }
+      });
+      await doc.save();
+    }
+
+    return co;
   }
 
   static async addFieldToContainer(containerId: string, field: TField) {

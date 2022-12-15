@@ -6,6 +6,7 @@ import { IUser } from "./user.model";
  */
 export type TField = {
   name: string;
+  value: string;
   viewPermissions: [IUser["_id"]];
   updatePermissions: [IUser["_id"]];
   owner: IUser["_id"];
@@ -21,6 +22,9 @@ const fieldSchema: Schema = new Schema({
   name: {
     type: String,
     required: true,
+  },
+  value: {
+    type: String,
   },
   owner: {
     type: Schema.Types.ObjectId,
