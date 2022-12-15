@@ -10,30 +10,33 @@
 
 ## DATA SSTRUCTURE:
 
-Doc - [Field] - [Container] - Field
+`Doc`
+` - [Field]`
+` - [Container]`
+` - Field`
 
 ## DATA MODEL DESIGN:
 
-User {
-name:string,
-id:string,
-}
-Doc {
-[Field] onetomany
-[Container] onetomany
-}
-Container {
-[Field]
-ViewPermissions [User] onetomany
-EditPermissions [User] onetomany
-OwnerId - User.id
-}
-Field {
-name: string,
-ViewPermissions [User] onetomany
-EditPermissions [User] onetomany
-OwnerId - User.id
-}
+`User {`
+`   name:string,`
+`   id:string,`
+`}`
+`Doc {`
+`   [Field] onetomany`
+`   [Container] onetomany`
+`}`
+`Container {`
+`   [Field]`
+`   ViewPermissions [User] onetomany`
+`   EditPermissions [User] onetomany`
+`   OwnerId - User.id`
+`}`
+`Field {`
+`   name: string,`
+`   ViewPermissions [User] onetomany`
+`   EditPermissions [User] onetomany`
+`   OwnerId - User.id`
+`}`
 
 ## TASK LIST DESCRIPTION:
 
